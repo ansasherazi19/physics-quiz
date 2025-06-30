@@ -1,0 +1,1145 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image:url(Rocket-rafiki\ \(1\).svg);
+            background-repeat: no-repeat;
+
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: #343a40;
+        }
+
+        .content {
+            width: 100%;
+            padding-top: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .quiz-container {
+            background: linear-gradient(135deg, #ffffff, #f1f3f5);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            width: 90%;
+            max-width: 530px;
+            padding: 30px;
+            position: relative;
+            z-index: 1;
+            margin: 20px 0;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            color: #e64980;
+            margin: 0 0 25px 0;
+            font-size: 28px;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(230, 73, 128, 0.1);
+        }
+
+        .level-timer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .level-indicator {
+            background: #f3d9fa;
+            color: #ae3ec9;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .timer {
+            background: #ffe3e3;
+            color: #fa5252;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            background: #e9ecef;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #495057;
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: #495057;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .question-count {
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .question {
+            font-size: 19px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            font-weight: 600;
+            color: #212529;
+            padding: 0 10px;
+            text-align: center;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .option {
+            background: #ffffff;
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-align: center;
+            font-size: 15px;
+            position: relative;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: #495057;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .option:hover {
+            background: #f8f9fa;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: #adb5bd;
+        }
+
+        .option-label {
+            position: absolute;
+            top: -12px;
+            left: 12px;
+            background: #4dabf7;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .option.correct {
+            background: #ebfbee;
+            border-color: #40c057;
+            color: #2b8a3e;
+            box-shadow: 0 2px 10px rgba(64, 192, 87, 0.2);
+        }
+
+        .option.wrong {
+            background: #fff5f5;
+            border-color: #ff6b6b;
+            color: #c92a2a;
+            box-shadow: 0 2px 10px rgba(255, 107, 107, 0.2);
+        }
+
+        .navigation {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #748ffc, #5c7cfa);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(116, 143, 252, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(116, 143, 252, 0.6);
+            background: linear-gradient(135deg, #5c7cfa, #4c6ef5);
+        }
+
+        .btn:disabled {
+            background: #adb5bd;
+            color: #f8f9fa;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .progress-container {
+            margin-top: 30px;
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #748ffc, #5c7cfa);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        @media (max-width: 480px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .question {
+                font-size: 17px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .quiz-container {
+                padding: 20px;
+            }
+            
+            .option {
+                min-height: 50px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="content">
+        <div class="quiz-container">
+            <h1>PHYSICS QUIZ</h1>
+            
+            <div class="level-timer-container">
+                <div class="level-indicator">QUIZ LEVEL: BASIC</div>
+                <div class="timer">⏱️ 00:00</div>
+            </div>
+            
+            <div class="question-header">
+                <div class="question-number">QUESTION <span id="current-question">1</span></div>
+                <div class="question-count">TOTAL: <span id="total-questions">15</span></div>
+            </div>
+            
+            <div class="question" id="question-text"></div>
+            
+            <div class="options-grid" id="options-container">
+                
+            </div>
+            
+            <div class="navigation">
+                <button id="next-btn" class="btn" disabled>NEXT QUESTION →</button>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Physics MCQs for Basic Level (9th to Intermediate)
+        const questions = [
+            {
+                question: "What is the SI unit of force?",
+                options: ["Joule", "Newton", "Watt", "Pascal"],
+                correctAnswer: "Newton"
+            },
+            {
+                question: "Which law states that every action has an equal and opposite reaction?",
+                options: ["Newton's First Law", "Newton's Second Law", "Newton's Third Law", "Law of Gravitation"],
+                correctAnswer: "Newton's Third Law"
+            },
+            {
+                question: "What is the acceleration due to gravity on Earth's surface (approx.)?",
+                options: ["5 m/s²", "9.8 m/s²", "12 m/s²", "15 m/s²"],
+                correctAnswer: "9.8 m/s²"
+            },
+            {
+                question: "Which of these is a scalar quantity?",
+                options: ["Force", "Velocity", "Speed", "Acceleration"],
+                correctAnswer: "Speed"
+            },
+            {
+                question: "What is the energy possessed by a body due to its motion called?",
+                options: ["Potential energy", "Kinetic energy", "Thermal energy", "Chemical energy"],
+                correctAnswer: "Kinetic energy"
+            },
+            {
+                question: "Which device is used to measure electric current?",
+                options: ["Voltmeter", "Ammeter", "Galvanometer", "Ohmmeter"],
+                correctAnswer: "Ammeter"
+            },
+            {
+                question: "What is the SI unit of electric charge?",
+                options: ["Volt", "Ampere", "Coulomb", "Ohm"],
+                correctAnswer: "Coulomb"
+            },
+            {
+                question: "Which type of mirror always forms a virtual image?",
+                options: ["Concave mirror", "Convex mirror", "Plane mirror", "All of these"],
+                correctAnswer: "Convex mirror"
+            },
+            {
+                question: "What is the speed of light in vacuum?",
+                options: ["3 × 10⁶ m/s", "3 × 10⁸ m/s", "3 × 10¹⁰ m/s", "It varies"],
+                correctAnswer: "3 × 10⁸ m/s"
+            },
+            {
+                question: "Which of these is NOT a fundamental force of nature?",
+                options: ["Gravitational force", "Electromagnetic force", "Nuclear force", "Frictional force"],
+                correctAnswer: "Frictional force"
+            },
+            {
+                question: "What is the principle behind the working of a hydraulic lift?",
+                options: ["Bernoulli's principle", "Pascal's law", "Archimedes' principle", "Newton's law"],
+                correctAnswer: "Pascal's law"
+            },
+            {
+                question: "Which color of light has the longest wavelength?",
+                options: ["Violet", "Green", "Red", "Blue"],
+                correctAnswer: "Red"
+            },
+            {
+                question: "What is the unit of frequency?",
+                options: ["Hertz", "Decibel", "Watt", "Tesla"],
+                correctAnswer: "Hertz"
+            },
+            {
+                question: "Which of these materials is the best conductor of electricity?",
+                options: ["Copper", "Silver", "Gold", "Aluminum"],
+                correctAnswer: "Silver"
+            },
+            {
+                question: "What is the process by which a liquid changes into a gas at its boiling point?",
+                options: ["Evaporation", "Condensation", "Vaporization", "Sublimation"],
+                correctAnswer: "Vaporization"
+            }
+        ];
+
+
+        let currentQuestionIndex = 0;
+        let selectedOption = null;
+        let answerSubmitted = false;
+        let seconds = 0;
+        let timerInterval;
+
+        // DOM Elements
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const nextBtn = document.getElementById('next-btn');
+        const currentQuestionDisplay = document.getElementById('current-question');
+        const totalQuestionsDisplay = document.getElementById('total-questions');
+        const progressBar = document.getElementById('progress-bar');
+        const timerDisplay = document.querySelector('.timer');
+
+        // Timer function
+        function startTimer() {
+            seconds = 0;
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                seconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            timerDisplay.textContent = `⏱️ ${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        // Initialize the quiz
+        function loadQuestion() {
+            answerSubmitted = false;
+            const currentQuestion = questions[currentQuestionIndex];
+            questionText.textContent = currentQuestion.question;
+            optionsContainer.innerHTML = '';
+            
+            const labels = ['A', 'B', 'C', 'D'];
+            
+            currentQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                
+                // Add label
+                const labelElement = document.createElement('div');
+                labelElement.classList.add('option-label');
+                labelElement.textContent = labels[index];
+                optionElement.appendChild(labelElement);
+                
+                // Add option text
+                optionElement.innerHTML += option;
+                
+                optionElement.addEventListener('click', () => {
+                    if (!answerSubmitted) {
+                        selectOption(optionElement, option, currentQuestion.correctAnswer);
+                    }
+                });
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            currentQuestionDisplay.textContent = currentQuestionIndex + 1;
+            totalQuestionsDisplay.textContent = questions.length;
+            updateProgressBar();
+            nextBtn.disabled = true;
+        }
+
+        function selectOption(optionElement, selectedOption, correctAnswer) {
+            // Highlight selected option
+            optionElement.classList.add('selected');
+            
+            // Check if answer is correct
+            if (selectedOption === correctAnswer) {
+                optionElement.classList.add('correct');
+            } else {
+                optionElement.classList.add('wrong');
+                // Also highlight the correct answer
+                document.querySelectorAll('.option').forEach((opt, idx) => {
+                    const optText = opt.textContent.replace(/^[A-D]/, '').trim();
+                    if (optText === correctAnswer) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+            
+            answerSubmitted = true;
+            nextBtn.disabled = false;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                // Quiz completed
+                stopTimer();
+                alert(`Quiz completed! Time taken: ${timerDisplay.textContent}`);
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Event Listeners
+        nextBtn.addEventListener('click', nextQuestion);
+
+        // Start the quiz
+        loadQuestion();
+        startTimer();
+    </script>
+</body>
+</html>
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #5864eb, #6c7ae3);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: #343a40;
+            position: relative;
+            overflow-x: hidden;
+            animation: backgroundPulse 15s infinite alternate;
+        }
+
+        @keyframes backgroundPulse {
+            0% {
+                background: linear-gradient(135deg, #1a237e, #283593);
+            }
+            50% {
+                background: linear-gradient(135deg, #283593, #1a237e);
+            }
+            100% {
+                background: linear-gradient(135deg, #1a237e, #3949ab);
+            }
+        }
+
+        /* Illustration styles */
+        .illustration {
+            position: absolute;
+            z-index: 0;
+            opacity: 0.6;
+            max-width: 180px;
+            pointer-events: none;
+            transition: all 0.5s ease-in-out;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+            
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .illustration:hover {
+            transform: scale(1.1) rotate(5deg);
+            opacity: 0.8;
+        }
+
+        .illustration-1 {
+            top: 18%;
+       right: 20px;
+            animation: float 6s ease-in-out infinite;
+             width: 450px; /* New size */
+    height: 600px;
+    max-width: none;
+          
+        }
+
+        .illustration-2 {
+            top: 99px;
+          left: 20px;
+          animation: float 6s ease-in-out infinite;
+                   width: 450px; /* New size */
+    height: 600px;
+    max-width: none;
+        }
+
+        .illustration-3 {
+            bottom: 30px;
+            left: 20px;
+            animation: float 7s ease-in-out infinite 0.5s;
+        }
+
+        .illustration-4 {
+            bottom: 30px;
+            right: 20px;
+            animation: float 6.5s ease-in-out infinite 1.5s;
+        }
+
+        /* .illustration-bg {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            opacity: 0.08;
+            max-width: 80%;
+            max-height: 80%;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+        } */
+
+        .content {
+            width: 100%;
+            padding-top: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 
+                        0 5px 15px rgba(0, 0, 0, 0.1),
+                        inset 0 0 50px rgba(255, 255, 255, 0.1);
+                       
+            width: 90%;
+            max-width: 530px;
+            padding: 30px;
+            position: relative;
+            z-index: 2;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.041);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #383335;
+            margin: 0 0 25px 0;
+            font-size: 28px;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(230, 73, 128, 0.1);
+        }
+
+        .level-timer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .level-indicator {
+            background: rgba(243, 217, 250, 0.7);
+            color: #ae3ec9;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .timer {
+            background: rgba(255, 227, 227, 0.7);
+            color: #fa5252;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            background: rgba(233, 236, 239, 0.3);
+            padding: 12px 15px;
+          
+            border-radius: 8px;
+            border-left: 4px solid rgba(73, 80, 87, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: #495057;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .question-count {
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .question {
+            font-size: 19px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            font-weight: 600;
+            color: #212529;
+            padding: 0 10px;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(222, 226, 230, 0.5);
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-align: center;
+            font-size: 15px;
+            position: relative;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: #495057;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(5px);
+        }
+
+        .option:hover {
+            background: rgba(248, 249, 250, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-color: rgba(173, 181, 189, 0.7);
+        }
+
+        .option-label {
+            position: absolute;
+            top: -12px;
+            left: 12px;
+            background: rgba(77, 171, 247, 0.8);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+     .option.correct {
+            background: #fff5f575;
+            border-color: #09f634;
+            color: #2b8a3e;
+            box-shadow: 0 2px 10px rgba(64, 192, 87, 0.2);
+        }
+
+        .option.wrong {
+            background: #fff5f575;
+            border-color: #f35151;
+            color: #c92a2a;
+            box-shadow: 0 2px 10px rgba(255, 107, 107, 0.2);
+        }
+        .navigation {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, rgba(116, 143, 252, 0.8), rgba(92, 124, 250, 0.8));
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(116, 143, 252, 0.3);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(116, 143, 252, 0.5);
+            background: linear-gradient(135deg, rgba(92, 124, 250, 0.9), rgba(76, 110, 245, 0.9));
+        }
+
+        .btn:disabled {
+            background: rgba(173, 181, 189, 0.7);
+            color: #f8f9fa;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .progress-container {
+            margin-top: 30px;
+            background: rgba(233, 236, 239, 0.3);
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, rgba(116, 143, 252, 0.8), rgba(92, 124, 250, 0.8));
+            width: 0%;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(116, 143, 252, 0.3);
+        }
+
+        @media (max-width: 480px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .question {
+                font-size: 17px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .quiz-container {
+                padding: 20px;
+            }
+            
+            .option {
+                min-height: 50px;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 320px) {            
+            .quiz-container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 22px;
+                margin-bottom: 15px;
+            }
+            
+            .question {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+            
+            .option {
+                padding: 10px;
+                min-height: 45px;
+                font-size: 14px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+ 
+
+    <img src="Questions-amico.svg" class="illustration illustration-1" alt="Illustration 1">
+    <img src="Choose-rafiki (5).svg" class="illustration illustration-2" alt="Illustration 2">
+    <!-- <img src="Rocket-rafiki (1).svg" class="illustration illustration-3" alt="Illustration 3"> -->
+    <!-- <img src="Rocket-rafiki (1).svg" class="illustration illustration-4" alt="Illustration 4">  -->
+    
+    <div class="content">
+        <div class="quiz-container">
+            <h1>PHYSICS QUIZ</h1>
+            
+            <div class="level-timer-container">
+                <div class="level-indicator">QUIZ LEVEL: BASIC</div>
+                <div class="timer">⏱️ 00:00</div>
+            </div>
+            
+            <div class="question-header">
+                <div class="question-number">QUESTION <span id="current-question">1</span></div>
+                <div class="question-count">TOTAL: <span id="total-questions">15</span></div>
+            </div>
+            
+            <div class="question" id="question-text"></div>
+            
+            <div class="options-grid" id="options-container">
+              
+            </div>
+            
+            <div class="navigation">
+                <button id="next-btn" class="btn" disabled>NEXT QUESTION →</button>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       
+        const questions = [
+            {
+                question: "What is the SI unit of force?",
+                options: ["Joule", "Newton", "Watt", "Pascal"],
+                correctAnswer: "Newton"
+            },
+            {
+                question: "Which law states that every action has an equal and opposite reaction?",
+                options: ["Newton's First Law", "Newton's Second Law", "Newton's Third Law", "Law of Gravitation"],
+                correctAnswer: "Newton's Third Law"
+            },
+            {
+                question: "What is the acceleration due to gravity on Earth's surface (approx.)?",
+                options: ["5 m/s²", "9.8 m/s²", "12 m/s²", "15 m/s²"],
+                correctAnswer: "9.8 m/s²"
+            },
+            {
+                question: "Which of these is a scalar quantity?",
+                options: ["Force", "Velocity", "Speed", "Acceleration"],
+                correctAnswer: "Speed"
+            },
+            {
+                question: "What is the energy possessed by a body due to its motion called?",
+                options: ["Potential energy", "Kinetic energy", "Thermal energy", "Chemical energy"],
+                correctAnswer: "Kinetic energy"
+            },
+            {
+                question: "Which device is used to measure electric current?",
+                options: ["Voltmeter", "Ammeter", "Galvanometer", "Ohmmeter"],
+                correctAnswer: "Ammeter"
+            },
+            {
+                question: "What is the SI unit of electric charge?",
+                options: ["Volt", "Ampere", "Coulomb", "Ohm"],
+                correctAnswer: "Coulomb"
+            },
+            {
+                question: "Which type of mirror always forms a virtual image?",
+                options: ["Concave mirror", "Convex mirror", "Plane mirror", "All of these"],
+                correctAnswer: "Convex mirror"
+            },
+            {
+                question: "What is the speed of light in vacuum?",
+                options: ["3 × 10⁶ m/s", "3 × 10⁸ m/s", "3 × 10¹⁰ m/s", "It varies"],
+                correctAnswer: "3 × 10⁸ m/s"
+            },
+            {
+                question: "Which of these is NOT a fundamental force of nature?",
+                options: ["Gravitational force", "Electromagnetic force", "Nuclear force", "Frictional force"],
+                correctAnswer: "Frictional force"
+            },
+            {
+                question: "What is the principle behind the working of a hydraulic lift?",
+                options: ["Bernoulli's principle", "Pascal's law", "Archimedes' principle", "Newton's law"],
+                correctAnswer: "Pascal's law"
+            },
+            {
+                question: "Which color of light has the longest wavelength?",
+                options: ["Violet", "Green", "Red", "Blue"],
+                correctAnswer: "Red"
+            },
+            {
+                question: "What is the unit of frequency?",
+                options: ["Hertz", "Decibel", "Watt", "Tesla"],
+                correctAnswer: "Hertz"
+            },
+            {
+                question: "Which of these materials is the best conductor of electricity?",
+                options: ["Copper", "Silver", "Gold", "Aluminum"],
+                correctAnswer: "Silver"
+            },
+            {
+                question: "What is the process by which a liquid changes into a gas at its boiling point?",
+                options: ["Evaporation", "Condensation", "Vaporization", "Sublimation"],
+                correctAnswer: "Vaporization"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let selectedOption = null;
+        let answerSubmitted = false;
+        let seconds = 0;
+        let timerInterval;
+
+        // DOM Elements
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const nextBtn = document.getElementById('next-btn');
+        const currentQuestionDisplay = document.getElementById('current-question');
+        const totalQuestionsDisplay = document.getElementById('total-questions');
+        const progressBar = document.getElementById('progress-bar');
+        const timerDisplay = document.querySelector('.timer');
+
+        // Timer function
+        function startTimer() {
+            seconds = 0;
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                seconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            timerDisplay.textContent = `⏱️ ${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        // Initialize the quiz
+        function loadQuestion() {
+            answerSubmitted = false;
+            const currentQuestion = questions[currentQuestionIndex];
+            questionText.textContent = currentQuestion.question;
+            optionsContainer.innerHTML = '';
+            
+            const labels = ['A', 'B', 'C', 'D'];
+            
+            currentQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                
+                // Add label
+                const labelElement = document.createElement('div');
+                labelElement.classList.add('option-label');
+                labelElement.textContent = labels[index];
+                optionElement.appendChild(labelElement);
+                
+                // Add option text
+                optionElement.innerHTML += option;
+                
+                optionElement.addEventListener('click', () => {
+                    if (!answerSubmitted) {
+                        selectOption(optionElement, option, currentQuestion.correctAnswer);
+                    }
+                });
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            currentQuestionDisplay.textContent = currentQuestionIndex + 1;
+            totalQuestionsDisplay.textContent = questions.length;
+            updateProgressBar();
+            nextBtn.disabled = true;
+        }
+
+        function selectOption(optionElement, selectedOption, correctAnswer) {
+            // Highlight selected option
+            optionElement.classList.add('selected');
+            
+            // Check if answer is correct
+            if (selectedOption === correctAnswer) {
+                optionElement.classList.add('correct');
+            } else {
+                optionElement.classList.add('wrong');
+                // Also highlight the correct answer
+                document.querySelectorAll('.option').forEach((opt, idx) => {
+                    const optText = opt.textContent.replace(/^[A-D]/, '').trim();
+                    if (optText === correctAnswer) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+            
+            answerSubmitted = true;
+            nextBtn.disabled = false;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                // Quiz completed
+                stopTimer();
+                alert(`Quiz completed! Time taken: ${timerDisplay.textContent}`);
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Event Listeners
+        nextBtn.addEventListener('click', nextQuestion);
+
+        // Start the quiz
+        loadQuestion();
+        startTimer();
+    </script>
+</body>
+</html>
